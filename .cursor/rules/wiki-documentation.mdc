@@ -1,0 +1,44 @@
+---
+description: Keep MagicSpells.wiki in sync when spells, effects, or configs change
+alwaysApply: true
+---
+
+# Wiki Documentation Required
+
+Any user-facing spell, effect, or configuration change is incomplete until **`MagicSpells.wiki/`** is updated. Do this in the same task as the code change; do not leave wiki work as a follow-up unless the user explicitly defers it.
+
+## When you must update the wiki
+
+- **New spell** — new `*Spell.java` under `spells/`
+- **New spell effect** — new type under `spelleffects/`
+- **New or changed config options** — keys read via `getConfig*` / `getConfigData*` on spells, effects, or global YAML (`general.yml`, `mana.yml`, modifiers, variables, magic items, etc.)
+- **Behavior changes that affect how configs are written** — defaults, formats, removed options, renamed keys
+
+Skip wiki edits only for pure internals (refactors with no YAML/API surface change).
+
+## What to create or edit
+
+1. **Feature page** in `MagicSpells.wiki/` (match nearby naming; prefer `ClassName.md` / `Title-With-Hyphens.md` consistent with siblings).
+2. **Index entry**:
+   - Spells → `Spell-List.md` (correct category: general / command / instant / targeted / buff)
+   - Effects → `Spell-Effects.md` (and related lists if present)
+   - Global options → `General-Configuration.md`, `Mana-Configuration.md`, `Modifiers.md`, etc.
+3. **Sidebar** (`_Sidebar.md`) only if adding a top-level doc category, not for every spell page.
+
+## Page shape (mirror strong examples)
+
+Use pages like `ConjureSpell.md` or `DummySpell.md` as templates:
+
+- Link to source on this fork, e.g.  
+  `https://github.com/Team-Sneakymouse/MagicSpells/blob/DvZ/core/src/main/java/.../YourSpell.java`
+- Show `spell-class` (e.g. `.instant.YourSpell`) or effect `effect:` name
+- Short **Description**
+- **Configuration** table: Option | Description | Default Value (add Type when peers do)
+- At least one minimal YAML example
+- Document only options this type owns; link [[Spell Configuration]] / [[Spell Effects]] for shared base options
+
+## Quality bar
+
+- Defaults and key names must match the Java/YAML source exactly.
+- If you remove or rename a config key in code, update or strike it on the wiki in the same change.
+- Wiki is its own git repo — stage/commit there separately from `MagicSpells/` when the user asks for commits.

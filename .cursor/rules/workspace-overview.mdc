@@ -1,0 +1,41 @@
+---
+description: Orient agents to this MagicSpells workspace layout, repos, and build
+alwaysApply: true
+---
+
+# MagicSpells Workspace Overview
+
+This workspace is a multi-root layout with **two separate git repos** (not a monorepo):
+
+| Path | Repo | Branch | Role |
+|------|------|--------|------|
+| `MagicSpells/` | `Team-Sneakymouse/MagicSpells` | `DvZ` | Plugin source (PaperMC) |
+| `MagicSpells.wiki/` | `Team-Sneakymouse/MagicSpells.wiki` | `master` | GitHub wiki clone |
+
+Upstream plugin: `TheComputerGeek2/MagicSpells` (remote `upstream` in `MagicSpells/`). This fork targets DvZ / Lords of Minecraft; the local wiki documents fork-specific features.
+
+## Source map (`MagicSpells/`)
+
+- **Gradle multi-project** — root `settings.gradle.kts`; build with `./gradlew build` from `MagicSpells/`.
+- **`:core`** — main plugin. Java packages stay `com.nisovin.magicspells`; Maven coords use `io.github.team-sneakymouse`.
+- **Spell classes** — `core/src/main/java/com/nisovin/magicspells/spells/`
+  - Categories: `instant/`, `targeted/`, `buff/`, `command/`, `passive/`, plus top-level general spells
+  - YAML `spell-class` is relative to the spells package, e.g. `.instant.ConjureSpell`
+- **Spell effects** — `.../spelleffects/` (`SpellEffect.java`, `effecttypes/`)
+- **Config helpers** — `.../util/config/` (`ConfigData`, `getConfigData*` on spells)
+- **Default YAMLs** — `core/src/main/resources/` (`general.yml`, `mana.yml`, `spells-*.yml`, …)
+- **Extensions** — `:shop`, `:factions`, `:memory`, `:teams`, `:towny`
+- **NMS** — `:nms:shared`, `:nms:v1_21_4` (version modules; see README)
+
+## Docs map
+
+- Community / fork wiki files live in **`MagicSpells.wiki/`** (Markdown). Live site: https://github.com/Team-Sneakymouse/MagicSpells/wiki
+- Official upstream wiki (do not treat as this fork’s source of truth): https://github.com/TheComputerGeek2/MagicSpells/wiki
+- Quick config object notes in-repo: `MagicSpells/MagicSpells Config Objects.md`
+- Build/publish details: `MagicSpells/README.md`
+
+## Agent habits
+
+- Prefer reading an existing similar spell/effect and its wiki page before inventing patterns.
+- Treat `MagicSpells/` and `MagicSpells.wiki/` as **independent git histories** (commits, pushes, PRs stay in the repo you changed).
+- When adding or changing spell/effect/config surfaces, follow the **wiki documentation** rule and update the wiki in the same task.
