@@ -16,7 +16,8 @@ Upstream plugin: `TheComputerGeek2/MagicSpells` (remote `upstream` in `MagicSpel
 
 ## Source map (`MagicSpells/`)
 
-- **Gradle multi-project** — root `settings.gradle.kts`; build with `./gradlew build` from `MagicSpells/`.
+- **Gradle multi-project** — root `settings.gradle.kts`; build with `./gradlew build` from `MagicSpells/` (or from the workspace root — `./gradlew` there forwards into `MagicSpells/`).
+- **Test server** — `./gradlew runServer` starts a Paper 1.21.4 server with the shaded `:core` plugin (`xyz.jpenilla.run-paper`; server files under `core/run/`).
 - **`:core`** — main plugin. Java packages stay `com.nisovin.magicspells`; Maven coords use `io.github.team-sneakymouse`.
 - **Spell classes** — `core/src/main/java/com/nisovin/magicspells/spells/`
   - Categories: `instant/`, `targeted/`, `buff/`, `command/`, `passive/`, plus top-level general spells
