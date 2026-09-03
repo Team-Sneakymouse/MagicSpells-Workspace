@@ -1,0 +1,8 @@
+[submodule "MagicSpells"]
+	path = MagicSpells
+	url = git@github.com:Team-Sneakymouse/MagicSpells.git
+	branch = DvZ
+
+[submodule "MagicSpells.wiki"]
+	path = MagicSpells.wiki
+	url = git@github.com:Team-Sneakymouse/MagicSpells.wiki.git
