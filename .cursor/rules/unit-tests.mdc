@@ -1,0 +1,33 @@
+---
+description: Prefer JUnit unit tests for pure logic; keep Bukkit out of testable code
+alwaysApply: true
+---
+
+# Unit Tests
+
+Grow coverage for **pure logic**. Live Paper checks stay on `runServer` / `spells-test.yml` (see workspace overview). Do not leave new testable logic without tests unless the user defers.
+
+## When to add or update tests
+
+- Parsers, splitters, serializers, math/selection helpers, file I/O utilities, data structures
+- Bug fixes where a failing test would lock the regression
+- Refactors that extract logic out of Bukkit-heavy classes
+
+Skip (or prefer `runServer`) for: full spell cast pipelines, listeners, NMS, anything that needs a World/Player without a test harness.
+
+## How to write them
+
+- **JUnit 5** under `MagicSpells/core/src/test/java/`, mirroring the main package (e.g. `com.nisovin.magicspells.util.SplitParamsTest`).
+- Prefer **small, Bukkit-free types**. If logic lives in a class that loads Bukkit at class-init (e.g. `Util`), extract it (pattern: `ParamUtil`) so tests do not need the server API on the classpath.
+- Name tests after behavior (`doubleQuotesKeepInternalSpaces`), not implementation details.
+- Examples to copy: `ParamUtil` + `SplitParamsTest`, `MagnetItemBuckets` + `MagnetItemBucketsTest`, `AtomicFiles` + `AtomicFilesTest`.
+
+## Run
+
+```bash
+./gradlew :core:test --tests 'com.nisovin.magicspells.util.SplitParamsTest'
+# or
+./gradlew :core:test
+```
+
+From the workspace root, `./gradlew` forwards into `MagicSpells/`.
