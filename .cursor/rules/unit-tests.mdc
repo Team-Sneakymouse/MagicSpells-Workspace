@@ -1,26 +1,48 @@
 ---
-description: Prefer JUnit unit tests for pure logic; keep Bukkit out of testable code
+description: Required JUnit coverage for pure logic; runServer for live spells; snippet validator for YAML surfaces
 alwaysApply: true
 ---
 
 # Unit Tests
 
-Grow coverage for **pure logic**. Live Paper checks stay on `runServer` / `spells-test.yml` (see workspace overview). Do not leave new testable logic without tests unless the user defers.
+Grow coverage for **pure logic**. Live Paper checks stay on `runServer` / `spells-test.yml` (see workspace overview). Do not leave new testable logic without tests unless the user explicitly defers.
 
-## When to add or update tests
+Also follow `MagicSpells/AGENTS.md` (testing policy + definition of done).
+
+## When you must add or update tests
 
 - Parsers, splitters, serializers, math/selection helpers, file I/O utilities, data structures
+- ConfigData / expression helpers extracted away from Bukkit
 - Bug fixes where a failing test would lock the regression
 - Refactors that extract logic out of Bukkit-heavy classes
+- Spell YAML fixtures meant to validate `spell-class` / option keys → use `SpellSnippetValidator` tests
 
-Skip (or prefer `runServer`) for: full spell cast pipelines, listeners, NMS, anything that needs a World/Player without a test harness.
+## When to skip (prefer `runServer`)
+
+- Full spell cast pipelines, listeners, NMS
+- Anything that needs a World/Player without a dedicated harness
+- Visual effects / particles / timing-sensitive combat (unless a pure helper was extracted)
 
 ## How to write them
 
 - **JUnit 5** under `MagicSpells/core/src/test/java/`, mirroring the main package (e.g. `com.nisovin.magicspells.util.SplitParamsTest`).
 - Prefer **small, Bukkit-free types**. If logic lives in a class that loads Bukkit at class-init (e.g. `Util`), extract it (pattern: `ParamUtil`) so tests do not need the server API on the classpath.
 - Name tests after behavior (`doubleQuotesKeepInternalSpaces`), not implementation details.
-- Examples to copy: `ParamUtil` + `SplitParamsTest`, `MagnetItemBuckets` + `MagnetItemBucketsTest`, `AtomicFiles` + `AtomicFilesTest`.
+- Examples to copy: `ParamUtil` + `SplitParamsTest`, `MagnetItemBuckets` + `MagnetItemBucketsTest`, `AtomicFiles` + `AtomicFilesTest`, `SpellSnippetValidator` + `SpellSnippetValidatorTest`.
+
+## YAML snippet validation (no live server)
+
+For “does this script’s `spell-class` and option keys look real?” without Paper:
+
+- `SpellSnippetValidator` + `spell-option-index.json` under test resources
+- Regenerate index: `python3 scripts/wiki/export-test-spell-index.py` (also run from `generate-all.py`)
+- Still use `runServer` to prove casts, targeting, and effects
+
+## Definition of done
+
+1. Pure-logic / extractable change → tests in the same change
+2. Run `./gradlew :core:test` (or `./gradlew build`) and fix failures before finishing
+3. Do not rely on `runServer` alone for pure-logic verification
 
 ## Run
 

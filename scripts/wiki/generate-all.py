@@ -15,6 +15,7 @@ GENERATORS = (
     "generate-modifier-condition-index.py",
     "generate-passive-trigger-index.py",
     "report-configdata-backlog.py",
+    "export-test-spell-index.py",
 )
 
 
