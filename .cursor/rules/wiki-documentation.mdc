@@ -33,9 +33,10 @@ Use pages like `ConjureSpell.md` or `DummySpell.md` as templates:
   `https://github.com/Team-Sneakymouse/MagicSpells/blob/DvZ/core/src/main/java/.../YourSpell.java`
 - Show `spell-class` (e.g. `.instant.YourSpell`) or effect `effect:` name
 - Short **Description**
-- **Configuration** table: Option | Description | Default Value (add Type when peers do)
+- **Configuration** table: Option | Description | Default Value | ConfigData (add Type when peers do). **ConfigData** is `yes` if the Java field is loaded via `getConfigData*` / `ConfigDataUtil` (expression-capable at cast time), else `no`. Do not invent ConfigData support in code just to flip the cell — report current behavior only.
 - At least one minimal YAML example
 - Document only options this type owns; link [[Spell Configuration]] / [[Spell Effects]] for shared base options
+- Every owned config key from the Java constructor/`load` path must appear in the table; if you find an undocumented key, add it
 
 ## Quality bar
 
