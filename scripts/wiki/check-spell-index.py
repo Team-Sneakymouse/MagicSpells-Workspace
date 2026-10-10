@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from paths import (  # noqa: E402
     EFFECT_INDEX,
     MODIFIER_CONDITION_INDEX,
+    PASSIVE_TRIGGER_INDEX,
     SPELL_INDEX,
 )
 
@@ -121,9 +122,11 @@ def main() -> int:
     ok_mod, n_mod, msg_mod = check_nonempty_list(
         MODIFIER_CONDITION_INDEX, "conditions"
     )
+    ok_pas, n_pas, msg_pas = check_nonempty_list(PASSIVE_TRIGGER_INDEX, "triggers")
     print(f"effect-index.json: {msg_eff} (entries={n_eff})")
     print(f"modifier-condition-index.json: {msg_mod} (entries={n_mod})")
-    if not ok_eff or not ok_mod:
+    print(f"passive-trigger-index.json: {msg_pas} (entries={n_pas})")
+    if not ok_eff or not ok_mod or not ok_pas:
         fail = True
 
     if fail:

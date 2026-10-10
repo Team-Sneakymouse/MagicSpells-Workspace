@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate all MagicSpells wiki machine indexes."""
+"""Regenerate all MagicSpells wiki machine indexes and reports."""
 
 from __future__ import annotations
 
@@ -13,6 +13,8 @@ GENERATORS = (
     "generate-spell-index.py",
     "generate-effect-index.py",
     "generate-modifier-condition-index.py",
+    "generate-passive-trigger-index.py",
+    "report-configdata-backlog.py",
 )
 
 

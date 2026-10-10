@@ -47,15 +47,22 @@ jobs:
       - name: Check spell / effect / modifier indexes
         run: python3 scripts/wiki/check-spell-index.py
 
-      - name: Check page shape
-        run: python3 scripts/wiki/check-page-shape.py
+      - name: Check page shape (CI policy)
+        # Errors: missing spell-class / Shared options / ConfigData column.
+        # Warnings only (do not fail): missing example, source link, description.
+        # Use --strict locally when tightening further.
+        run: python3 scripts/wiki/check-page-shape.py --ci
 
       - name: Fail if generated indexes drifted
         run: |
-          if ! git -C MagicSpells.wiki diff --quiet -- spell-index.json effect-index.json modifier-condition-index.json configdata-coverage.md passive-trigger-index.json 2>/dev/null; then
+          if ! git -C MagicSpells.wiki diff --quiet -- \
+              spell-index.json effect-index.json modifier-condition-index.json \
+              configdata-coverage.md configdata-backlog.md passive-trigger-index.json \
+              2>/dev/null; then
             echo "Generated wiki index files are out of date. Run: python3 scripts/wiki/generate-all.py"
-            git -C MagicSpells.wiki diff --stat -- spell-index.json effect-index.json modifier-condition-index.json configdata-coverage.md passive-trigger-index.json || true
+            git -C MagicSpells.wiki diff --stat -- \
+              spell-index.json effect-index.json modifier-condition-index.json \
+              configdata-coverage.md configdata-backlog.md passive-trigger-index.json || true
             exit 1
           fi
-          # Also tolerate files that do not exist yet on first run
           exit 0

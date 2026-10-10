@@ -366,7 +366,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--strict",
         action="store_true",
-        help="Treat warnings as errors",
+        help="Treat all warnings as errors",
+    )
+    parser.add_argument(
+        "--ci",
+        action="store_true",
+        help=(
+            "CI policy (default severity): errors for missing spell-class, "
+            "Shared options callout, and ConfigData column; warnings for "
+            "missing example/source/description. Same as omitting --strict."
+        ),
     )
     parser.add_argument(
         "--json",
@@ -375,6 +384,7 @@ def main(argv: list[str] | None = None) -> int:
         help="Print a JSON summary",
     )
     args = parser.parse_args(argv)
+    # --ci documents the gradual policy; severity is already the default.
 
     wiki_root = args.wiki.resolve()
     if not wiki_root.is_dir():
