@@ -32,8 +32,10 @@ Upstream plugin: `TheComputerGeek2/MagicSpells` (remote `upstream` in `MagicSpel
 
 - Community / fork wiki files live in **`MagicSpells.wiki/`** (Markdown). Live site: https://github.com/Team-Sneakymouse/MagicSpells/wiki
 - **Agent spell entrypoint:** `MagicSpells.wiki/Agent-Guide.md` → `Spell-List.md` (one-liners) → feature page; patterns in `Spell-Cookbook.md` / `Spell-Anti-Patterns.md`
-- Skim indexes: `Spell-Effects.md`, `Modifier-Condition-List.md`, `Variables.md`; machine map: `spell-index.json`
+- Skim indexes: `Spell-Effects.md`, `Modifier-Condition-List.md`, `Passive-Trigger-List.md`, `Variables.md`; machine maps: `spell-index.json`, `effect-index.json`, `modifier-condition-index.json`
+- Regenerate indexes: `python3 scripts/wiki/generate-all.py` (canonical tooling under `scripts/wiki/`; wiki `scripts/` wrappers forward here)
 - Conventions: `MagicSpells.wiki/Wiki-Conventions.md`
+- CI: `.github/workflows/wiki-docs.yml` (workspace) and `MagicSpells/.github/workflows/wiki-docs.yml`
 - Official upstream wiki (do not treat as this fork’s source of truth): https://github.com/TheComputerGeek2/MagicSpells/wiki
 - Quick config object notes in-repo: `MagicSpells/MagicSpells Config Objects.md`
 - Build/publish details: `MagicSpells/README.md`

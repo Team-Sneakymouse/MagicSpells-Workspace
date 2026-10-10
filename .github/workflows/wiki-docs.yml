@@ -1,0 +1,61 @@
+name: Wiki docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'MagicSpells.wiki/**'
+      - 'MagicSpells/core/src/main/java/com/nisovin/magicspells/spells/**'
+      - 'MagicSpells/core/src/main/java/com/nisovin/magicspells/spelleffects/**'
+      - 'MagicSpells/core/src/main/java/com/nisovin/magicspells/castmodifiers/**'
+      - 'scripts/wiki/**'
+      - '.github/workflows/wiki-docs.yml'
+  pull_request:
+    paths:
+      - 'MagicSpells.wiki/**'
+      - 'MagicSpells/core/src/main/java/com/nisovin/magicspells/spells/**'
+      - 'MagicSpells/core/src/main/java/com/nisovin/magicspells/spelleffects/**'
+      - 'MagicSpells/core/src/main/java/com/nisovin/magicspells/castmodifiers/**'
+      - 'scripts/wiki/**'
+      - '.github/workflows/wiki-docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wiki-docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate wiki indexes
+        run: python3 scripts/wiki/generate-all.py
+
+      - name: Check spell / effect / modifier indexes
+        run: python3 scripts/wiki/check-spell-index.py
+
+      - name: Check page shape
+        run: python3 scripts/wiki/check-page-shape.py
+
+      - name: Fail if generated indexes drifted
+        run: |
+          if ! git -C MagicSpells.wiki diff --quiet -- spell-index.json effect-index.json modifier-condition-index.json configdata-coverage.md passive-trigger-index.json 2>/dev/null; then
+            echo "Generated wiki index files are out of date. Run: python3 scripts/wiki/generate-all.py"
+            git -C MagicSpells.wiki diff --stat -- spell-index.json effect-index.json modifier-condition-index.json configdata-coverage.md passive-trigger-index.json || true
+            exit 1
+          fi
+          # Also tolerate files that do not exist yet on first run
+          exit 0
