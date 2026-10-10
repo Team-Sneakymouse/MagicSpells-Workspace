@@ -20,7 +20,7 @@ Skip wiki edits only for pure internals (refactors with no YAML/API surface chan
 
 1. **Feature page** in `MagicSpells.wiki/` (match nearby naming; prefer `ClassName.md` / `Title-With-Hyphens.md` consistent with siblings).
 2. **Index entry**:
-   - Spells → `Spell-List.md` (correct category: general / command / instant / targeted / buff)
+   - Spells → `Spell-List.md` (correct category: general / command / instant / targeted / buff). Format each bullet as link + `` (`spell-class`) `` + em-dash one-liner of purpose (same style as existing entries); do not add a bare name-only link.
    - Effects → `Spell-Effects.md` (and related lists if present)
    - Global options → `General-Configuration.md`, `Mana-Configuration.md`, `Modifiers.md`, etc.
 3. **Sidebar** (`_Sidebar.md`) only if adding a top-level doc category, not for every spell page.

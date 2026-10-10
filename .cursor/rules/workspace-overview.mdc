@@ -31,12 +31,14 @@ Upstream plugin: `TheComputerGeek2/MagicSpells` (remote `upstream` in `MagicSpel
 ## Docs map
 
 - Community / fork wiki files live in **`MagicSpells.wiki/`** (Markdown). Live site: https://github.com/Team-Sneakymouse/MagicSpells/wiki
+- **Agent spell entrypoint:** `MagicSpells.wiki/Agent-Guide.md` → then `Spell-List.md` (one-liners) → feature page
 - Official upstream wiki (do not treat as this fork’s source of truth): https://github.com/TheComputerGeek2/MagicSpells/wiki
 - Quick config object notes in-repo: `MagicSpells/MagicSpells Config Objects.md`
 - Build/publish details: `MagicSpells/README.md`
 
 ## Agent habits
 
+- When choosing or writing spells, start at `MagicSpells.wiki/Agent-Guide.md`, skim `Spell-List.md` one-liners, then open only the matching feature page (before inventing patterns).
 - Prefer reading an existing similar spell/effect and its wiki page before inventing patterns.
 - Treat `MagicSpells/` and `MagicSpells.wiki/` as **independent git histories** (commits, pushes, PRs stay in the repo you changed).
 - When adding or changing spell/effect/config surfaces, follow the **wiki documentation** rule and update the wiki in the same task.

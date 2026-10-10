@@ -12,3 +12,7 @@ The workspace contains two independent Git repositories:
 Keep their Git histories, commits, and changes separate. When a task changes
 user-facing spells, effects, or configuration, follow the wiki documentation
 requirements in `.cursor/rules/wiki-documentation.mdc`.
+
+When choosing or writing spells, start at `MagicSpells.wiki/Agent-Guide.md`,
+then skim `MagicSpells.wiki/Spell-List.md` one-liners before opening a feature
+page.
