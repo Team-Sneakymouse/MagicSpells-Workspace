@@ -1,11 +1,13 @@
 ---
-description: Keep MagicSpells.wiki in sync when spells, effects, or configs change
+description: Plugin mode — keep MagicSpells.wiki in sync when plugin spells, effects, or configs change
 alwaysApply: true
 ---
 
 # Wiki Documentation Required
 
-Any user-facing spell, effect, or configuration change is incomplete until **`MagicSpells.wiki/`** is updated. Do this in the same task as the code change; do not leave wiki work as a follow-up unless the user explicitly defers it.
+**Plugin mode only.** Skip when the task is only gameplay YAML under `Ms_Scripts` / `MagicSpells_Scripting` (script mode) — pack content does not get wiki feature pages.
+
+Any user-facing **plugin** spell, effect, or configuration change is incomplete until **`MagicSpells.wiki/`** is updated. Do this in the same task as the code change; do not leave wiki work as a follow-up unless the user explicitly defers it.
 
 Conventions live in `MagicSpells.wiki/Wiki-Conventions.md` (page shape, shared-options callout, deprecation banners, redirects).
 

@@ -1,9 +1,11 @@
 ---
-description: Required JUnit coverage for pure logic; runServer for live spells; snippet validator for YAML surfaces
+description: Plugin mode — required JUnit for pure logic; runServer for live spells; snippet validator for YAML surfaces
 alwaysApply: true
 ---
 
 # Unit Tests
+
+**Plugin mode only.** Skip when the task is only gameplay YAML under `Ms_Scripts` / `MagicSpells_Scripting` (script mode) — do not add JUnit for pack content alone.
 
 Grow coverage for **pure logic**. Live Paper checks stay on `runServer` / `spells-test.yml` (see workspace overview). Do not leave new testable logic without tests unless the user explicitly defers.
 

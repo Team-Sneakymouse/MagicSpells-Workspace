@@ -1,0 +1,41 @@
+---
+description: Script mode — author or edit LoM MagicSpells gameplay YAML packs (Ms_Scripts / MagicSpells_Scripting)
+alwaysApply: true
+---
+
+# Script mode (gameplay YAML)
+
+**Script mode only.** Skip when the task is plugin Java / config API / wiki surface for the plugin (plugin mode).
+
+Packs are **not** a separate git repo. Agent rules for scripting live here in `MagicSpells-Workspace/.cursor/rules/`; `../MagicSpells_Scripting/` is only the YAML tree.
+
+## Where files live
+
+| Path | Role |
+|------|------|
+| `../MagicSpells_Scripting/` (sibling of this workspace) | Canonical pack tree (local files only) |
+| `Ms_Scripts/` | Symlink into that tree (gitignored in this workspace) |
+
+Pack folders are `spells-*` (e.g. `spells-vehicles/`, `spells-systems/`). Prefer the pack that already owns the feature; mirror sibling YAML naming.
+
+Edit under those paths. Do **not** put production LoM content in `MagicSpells/core/src/main/resources/`.
+
+## How to write
+
+1. Open `MagicSpells.wiki/Agent-Guide.md` (task → spell table), then `Spell-List.md`, then only the matching feature page.
+2. Check `Spell-Cookbook.md` / `Spell-Anti-Patterns.md` before inventing a novel chain.
+3. Prefer an existing similar spell in the same pack as the template.
+4. Do not invent a new `spell-class` when Spell-List already has a match.
+5. Helpers only fired by others: `helper-spell: true`. Sub-spells default to `partial` cast mode; use `(mode=full)` when cooldown/cost/`str-*` must run.
+
+## Done means
+
+- YAML loads and behaves as intended (prefer `./gradlew runServer` + copy/symlink into `MagicSpells/core/run/plugins/MagicSpells/`, or a dedicated `spells-*.yml` / `spells-test.yml` smoke).
+- Optional surface check (no Paper): `SpellSnippetValidator` if validating `spell-class` / option keys.
+- **No** wiki feature-page update for pack content alone.
+- **No** new JUnit for pack YAML alone.
+- **No** plugin Java or shipped-default changes unless the user switched to plugin mode.
+
+## Out of scope here
+
+Plugin API / new spell classes / config-key changes → **plugin mode** (wiki-documentation, unit-tests).

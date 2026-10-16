@@ -1,20 +1,46 @@
 ---
-description: Orient agents to this MagicSpells workspace layout, repos, and build
+description: Orient agents to this MagicSpells workspace layout, repos, mode fork, and build
 alwaysApply: true
 ---
 
 # MagicSpells Workspace Overview
 
-This workspace is a multi-root layout with **two separate git repos** (not a monorepo):
+## Mode fork (choose first)
+
+| Mode | Triggers | Do |
+|------|----------|-----|
+| **Plugin** | Java, new/`spell-class` types, config API keys, wiki docs for the plugin, Gradle/build | Edit `MagicSpells/` (+ wiki when surface changes). Follow **wiki-documentation** and **unit-tests** rules. |
+| **Script** | Gameplay YAML packs, LoM content, `Ms_Scripts`, `MagicSpells_Scripting`, `spells-*` pack folders | Edit packs only. Follow **scripts-authoring** (rules stay in this workspace; packs are not a git repo). Do not change plugin Java or shipped defaults unless the user asks. |
+
+Same chat may switch modes when the user does. If both are needed, finish the active mode’s done-criteria before crossing.
+
+## Layout
+
+Multi-root / multi-repo (not a monorepo):
 
 | Path | Repo | Branch | Role |
 |------|------|--------|------|
 | `MagicSpells/` | `Team-Sneakymouse/MagicSpells` | `DvZ` | Plugin source (PaperMC) |
 | `MagicSpells.wiki/` | `Team-Sneakymouse/MagicSpells.wiki` | `master` | GitHub wiki clone |
+| `Ms_Scripts/` → `../MagicSpells_Scripting/` | (local files only, not a git repo) | — | LoM gameplay YAML (gitignored symlink) |
 
-Upstream plugin: `TheComputerGeek2/MagicSpells` (remote `upstream` in `MagicSpells/`). This fork targets DvZ / Lords of Minecraft; the local wiki documents fork-specific features.
+### Branch roles (`MagicSpells/` / `origin`)
 
-## Source map (`MagicSpells/`)
+LoM mainline is **`origin/DvZ`** (not GitHub `main`, not `upstream`).
+
+| Role | Typical name | Publishes to sneakyrp? |
+|------|--------------|------------------------|
+| **Live** | `DvZ` | Yes when `publish.yml` points here (production-ish) |
+| **Milestone** | e.g. `feature/cast-item-spelldata` | Yes while that branch is listed in `publish.yml` — feeds the **dev** server for a testing phase |
+| **Feature** | other `feature/*` | No — merge into the active milestone (or `DvZ`) when ready |
+
+Source of truth for which branch auto-publishes: `MagicSpells/.github/workflows/publish.yml` (`on.push.branches`). Changing that filter: merge current publish/Gradle surface from `DvZ` into the new publisher first (shaded `plugin` publication + `gradle/verify-publications.gradle`), then flip the filter. Day-to-day feature pushes should not publish.
+
+If the user says “feature branch” / “pull DvZ into my branch” without naming it: state the current checkout and ask before merge/stash/push.
+
+`upstream` (`TheComputerGeek2/MagicSpells`) is only for occasional sync-from-upstream; ignore it for LoM merge/publish work.
+
+## Source map (`MagicSpells/`) — plugin mode
 
 - **Gradle multi-project** — root `settings.gradle.kts`; build with `./gradlew build` from `MagicSpells/` (or from the workspace root — `./gradlew` there forwards into `MagicSpells/`).
 - **Test server** — `./gradlew runServer` starts a Paper 1.21.4 server with the shaded `:core` plugin (`xyz.jpenilla.run-paper`; server files under `core/run/`).
@@ -24,14 +50,14 @@ Upstream plugin: `TheComputerGeek2/MagicSpells` (remote `upstream` in `MagicSpel
   - YAML `spell-class` is relative to the spells package, e.g. `.instant.ConjureSpell`
 - **Spell effects** — `.../spelleffects/` (`SpellEffect.java`, `effecttypes/`)
 - **Config helpers** — `.../util/config/` (`ConfigData`, `getConfigData*` on spells)
-- **Default YAMLs** — `core/src/main/resources/` (`general.yml`, `mana.yml`, `spells-*.yml`, …)
+- **Default YAMLs** — `core/src/main/resources/` (`general.yml`, `mana.yml`, `spells-*.yml`, …) — shipped defaults only, not LoM packs
 - **Extensions** — `:shop`, `:factions`, `:memory`, `:teams`, `:towny`
 - **NMS** — `:nms:shared`, `:nms:v1_21_4` (version modules; see README)
 
 ## Docs map
 
 - Community / fork wiki files live in **`MagicSpells.wiki/`** (Markdown). Live site: https://github.com/Team-Sneakymouse/MagicSpells/wiki
-- **Agent spell entrypoint:** `MagicSpells.wiki/Agent-Guide.md` → `Spell-List.md` (one-liners) → feature page; patterns in `Spell-Cookbook.md` / `Spell-Anti-Patterns.md`
+- **Spell YAML entrypoint (both modes):** `MagicSpells.wiki/Agent-Guide.md` → `Spell-List.md` (one-liners) → feature page; patterns in `Spell-Cookbook.md` / `Spell-Anti-Patterns.md`
 - Skim indexes: `Spell-Effects.md`, `Modifier-Condition-List.md`, `Passive-Trigger-List.md`, `Variables.md`; machine maps: `spell-index.json`, `effect-index.json`, `modifier-condition-index.json`
 - Regenerate indexes: `python3 scripts/wiki/generate-all.py` (canonical tooling under `scripts/wiki/`; wiki `scripts/` wrappers forward here)
 - Conventions: `MagicSpells.wiki/Wiki-Conventions.md`
@@ -42,11 +68,9 @@ Upstream plugin: `TheComputerGeek2/MagicSpells` (remote `upstream` in `MagicSpel
 
 ## Agent habits
 
-- When choosing or writing spells, start at `MagicSpells.wiki/Agent-Guide.md` (task→spell table), skim `Spell-List.md` one-liners, then open only the matching feature page (before inventing patterns). Check Cookbook / Anti-Patterns for structure.
-- Prefer reading an existing similar spell/effect and its wiki page before inventing patterns.
-- Treat `MagicSpells/` and `MagicSpells.wiki/` as **independent git histories** (commits, pushes, PRs stay in the repo you changed).
-- When adding or changing spell/effect/config surfaces, follow the **wiki documentation** rule and update the wiki in the same task.
-- For pure logic (parsers, helpers, I/O utilities), follow the **unit tests** rule and `MagicSpells/AGENTS.md`: add/update JUnit tests under `core/src/test/java/`; keep Bukkit out of testable types when practical; run `./gradlew :core:test` before finishing.
-- Spell YAML surface checks (no Paper): `SpellSnippetValidator` + `spell-option-index.json` (regenerate with `python3 scripts/wiki/export-test-spell-index.py` / `generate-all.py`).
-- **Test spells on `runServer`:** Agents may edit `MagicSpells/core/run/plugins/MagicSpells/spells-test.yml` or add new `spells-*.yml` files in that same directory to define/load test spells. Do not treat that run-config tree as read-only. Prefer `spells-test.yml` for small one-off checks; use a new `spells-*.yml` when a feature needs a dedicated fixture set. These files are local server config (under gitignored `**/run/`), not shipped defaults — leave `core/src/main/resources/` alone unless the task is actually changing defaults.
+- Treat `MagicSpells/` and `MagicSpells.wiki/` as **independent git histories** (commits, pushes, PRs stay in the repo you changed). Pack YAML is **not** part of those histories.
+- After a merge the user did not ask to push: say it is local-only, or sync locals to `origin` before switching branches — do not leave unpushed merges unexplained.
+- Prefer reading an existing similar spell/effect (and its wiki page) before inventing patterns.
+- **Plugin mode:** wiki-documentation + unit-tests rules; `SpellSnippetValidator` for YAML surface checks; test on `runServer` via `MagicSpells/core/run/plugins/MagicSpells/spells-test.yml` or new `spells-*.yml` there (gitignored `**/run/`). Leave `core/src/main/resources/` alone unless changing shipped defaults.
+- **Script mode:** follow `scripts-authoring.mdc`; use wiki as reference only; test packs on `runServer` without committing them into the plugin repo.
 - Warning-migration live checklist: `MagicSpells/MANUAL-TEST-WARNING-MIGRATION.md` + fixtures in `spells-warning-migration.yml` (`wm_*`).
