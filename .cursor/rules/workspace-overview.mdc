@@ -20,25 +20,23 @@ Multi-root / multi-repo (not a monorepo):
 
 | Path | Repo | Branch | Role |
 |------|------|--------|------|
-| `MagicSpells/` | `Team-Sneakymouse/MagicSpells` | `DvZ` | Plugin source (PaperMC) |
+| `MagicSpells/` | `Team-Sneakymouse/MagicSpells` | `main` | Plugin source (PaperMC) |
 | `MagicSpells.wiki/` | `Team-Sneakymouse/MagicSpells.wiki` | `master` | GitHub wiki clone |
 | `Ms_Scripts/` → `../MagicSpells_Scripting/` | (local files only, not a git repo) | — | LoM gameplay YAML (gitignored symlink) |
 
 ### Branch roles (`MagicSpells/` / `origin`)
 
-LoM mainline is **`origin/DvZ`** (not GitHub `main`, not `upstream`).
+LoM mainline is **`origin/main`**. This is a hard fork; do not add or use an `upstream` remote to ComputerGeek.
 
 | Role | Typical name | Publishes to sneakyrp? |
 |------|--------------|------------------------|
-| **Live** | `DvZ` | Yes when `publish.yml` points here (production-ish) |
+| **Live** | `main` | Yes when `publish.yml` points here (production-ish) |
 | **Milestone** | e.g. `feature/cast-item-spelldata` | Yes while that branch is listed in `publish.yml` — feeds the **dev** server for a testing phase |
-| **Feature** | other `feature/*` | No — merge into the active milestone (or `DvZ`) when ready |
+| **Feature** | other `feature/*` | No — merge into the active milestone (or `main`) when ready |
 
-Source of truth for which branch auto-publishes: `MagicSpells/.github/workflows/publish.yml` (`on.push.branches`). Changing that filter: merge current publish/Gradle surface from `DvZ` into the new publisher first (shaded `plugin` publication + `gradle/verify-publications.gradle`), then flip the filter. Day-to-day feature pushes should not publish.
+Source of truth for which branch auto-publishes: `MagicSpells/.github/workflows/publish.yml` (`on.push.branches`). Changing that filter: merge current publish/Gradle surface from `main` into the new publisher first (shaded `plugin` publication + `gradle/verify-publications.gradle`), then flip the filter. Day-to-day feature pushes should not publish.
 
-If the user says “feature branch” / “pull DvZ into my branch” without naming it: state the current checkout and ask before merge/stash/push.
-
-`upstream` (`TheComputerGeek2/MagicSpells`) is only for occasional sync-from-upstream; ignore it for LoM merge/publish work.
+If the user says “feature branch” / “pull main into my branch” without naming it: state the current checkout and ask before merge/stash/push.
 
 ## Source map (`MagicSpells/`) — plugin mode
 

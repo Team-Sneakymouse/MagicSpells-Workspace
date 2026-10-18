@@ -38,7 +38,7 @@ Skip wiki edits only for pure internals (refactors with no YAML/API surface chan
 Use pages like `ConjureSpell.md` or `DummySpell.md` as templates:
 
 - Link to source on this fork, e.g.  
-  `https://github.com/Team-Sneakymouse/MagicSpells/blob/DvZ/core/src/main/java/.../YourSpell.java`
+  `https://github.com/Team-Sneakymouse/MagicSpells/blob/main/core/src/main/java/.../YourSpell.java`
 - Show `spell-class` (e.g. `.instant.YourSpell`) or effect `effect:` name
 - Short **Description**
 - Shared-options callout:  
