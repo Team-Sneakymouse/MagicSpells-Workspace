@@ -9,14 +9,14 @@ alwaysApply: true
 
 | Mode | Triggers | Do |
 |------|----------|-----|
-| **Plugin** | Java, new/`spell-class` types, config API keys, wiki docs for the plugin, Gradle/build | Edit `MagicSpells/` (+ wiki when surface changes). Follow **wiki-documentation**, `MagicSpells/AGENTS.md` (testing + team-policy bootstrap), and enrolled `MagicSpells/.team-policy/`. |
-| **Script** | Gameplay YAML packs, LoM content, `Ms_Scripts`, `MagicSpells_Scripting`, `spells-*` pack folders | Edit packs only. Follow **scripts-authoring** (rules stay in this workspace; packs are not a git repo). Do not change plugin Java or shipped defaults unless the user asks. Packs are **not** enrolled in the plugin `.team-policy/` payload. |
+| **Plugin** | Java, new/`spell-class` types, config API keys, wiki docs for the plugin, Gradle/build | Edit `MagicSpells/` (+ wiki when surface changes). Follow **wiki-documentation**, `MagicSpells/AGENTS.md` (testing + team-policy sibling bootstrap). |
+| **Script** | Gameplay YAML packs, LoM content, `Ms_Scripts`, `MagicSpells_Scripting`, `spells-*` pack folders | Edit packs only. Follow **scripts-authoring** (rules stay in this workspace; packs are not a git repo). Do not change plugin Java or shipped defaults unless the user asks. Packs are **not** enrolled via the plugin policy pointer. |
 
 Same chat may switch modes when the user does. If both are needed, finish the active mode’s done-criteria before crossing.
 
 ## Team development policy (plugin mode)
 
-`MagicSpells/` is enrolled: follow `MagicSpells/AGENTS.md` (managed bootstrap + local testing exception) and its `.team-policy/` payload. Do not substitute conversation memory or the sibling `team-development-policy/` checkout for that enrolled snapshot. Script mode is not enrolled.
+`MagicSpells/` is enrolled: follow `MagicSpells/AGENTS.md` (managed bootstrap + local testing exception). Policy docs come from the sibling `team-development-policy/` checkout resolved via `MagicSpells/.team-policy/pointer.json` (pull/clone when needed). Do not substitute conversation memory or a web mirror. Script mode is not enrolled.
 
 ## Layout
 
