@@ -38,4 +38,4 @@ Edit under those paths. Do **not** put production LoM content in `MagicSpells/co
 
 ## Out of scope here
 
-Plugin API / new spell classes / config-key changes → **plugin mode** (wiki-documentation, unit-tests).
+Plugin API / new spell classes / config-key changes → **plugin mode** (wiki-documentation, `MagicSpells/AGENTS.md`).

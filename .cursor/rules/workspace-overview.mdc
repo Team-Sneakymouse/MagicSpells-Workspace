@@ -9,10 +9,14 @@ alwaysApply: true
 
 | Mode | Triggers | Do |
 |------|----------|-----|
-| **Plugin** | Java, new/`spell-class` types, config API keys, wiki docs for the plugin, Gradle/build | Edit `MagicSpells/` (+ wiki when surface changes). Follow **wiki-documentation** and **unit-tests** rules. |
-| **Script** | Gameplay YAML packs, LoM content, `Ms_Scripts`, `MagicSpells_Scripting`, `spells-*` pack folders | Edit packs only. Follow **scripts-authoring** (rules stay in this workspace; packs are not a git repo). Do not change plugin Java or shipped defaults unless the user asks. |
+| **Plugin** | Java, new/`spell-class` types, config API keys, wiki docs for the plugin, Gradle/build | Edit `MagicSpells/` (+ wiki when surface changes). Follow **wiki-documentation**, `MagicSpells/AGENTS.md` (testing + team-policy bootstrap), and enrolled `MagicSpells/.team-policy/`. |
+| **Script** | Gameplay YAML packs, LoM content, `Ms_Scripts`, `MagicSpells_Scripting`, `spells-*` pack folders | Edit packs only. Follow **scripts-authoring** (rules stay in this workspace; packs are not a git repo). Do not change plugin Java or shipped defaults unless the user asks. Packs are **not** enrolled in the plugin `.team-policy/` payload. |
 
 Same chat may switch modes when the user does. If both are needed, finish the active mode’s done-criteria before crossing.
+
+## Team development policy (plugin mode)
+
+`MagicSpells/` is enrolled: follow `MagicSpells/AGENTS.md` (managed bootstrap + local testing exception) and its `.team-policy/` payload. Do not substitute conversation memory or the sibling `team-development-policy/` checkout for that enrolled snapshot. Script mode is not enrolled.
 
 ## Layout
 
@@ -69,6 +73,6 @@ If the user says “feature branch” / “pull main into my branch” without n
 - Treat `MagicSpells/` and `MagicSpells.wiki/` as **independent git histories** (commits, pushes, PRs stay in the repo you changed). Pack YAML is **not** part of those histories.
 - After a merge the user did not ask to push: say it is local-only, or sync locals to `origin` before switching branches — do not leave unpushed merges unexplained.
 - Prefer reading an existing similar spell/effect (and its wiki page) before inventing patterns.
-- **Plugin mode:** wiki-documentation + unit-tests rules; `SpellSnippetValidator` for YAML surface checks; test on `runServer` via `MagicSpells/core/run/plugins/MagicSpells/spells-test.yml` or new `spells-*.yml` there (gitignored `**/run/`). Leave `core/src/main/resources/` alone unless changing shipped defaults.
+- **Plugin mode:** wiki-documentation rule + `MagicSpells/AGENTS.md` testing section; `SpellSnippetValidator` for YAML surface checks; test on `runServer` via `MagicSpells/core/run/plugins/MagicSpells/spells-test.yml` or new `spells-*.yml` there (gitignored `**/run/`). Leave `core/src/main/resources/` alone unless changing shipped defaults.
 - **Script mode:** follow `scripts-authoring.mdc`; use wiki as reference only; test packs on `runServer` without committing them into the plugin repo.
 - Warning-migration live checklist: `MagicSpells/MANUAL-TEST-WARNING-MIGRATION.md` + fixtures in `spells-warning-migration.yml` (`wm_*`).
