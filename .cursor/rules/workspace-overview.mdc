@@ -45,7 +45,7 @@ If the user says “feature branch” / “pull main into my branch” without n
 ## Source map (`MagicSpells/`) — plugin mode
 
 - **Gradle multi-project** — root `settings.gradle.kts`; build with `./gradlew build` from `MagicSpells/` (or from the workspace root — `./gradlew` there forwards into `MagicSpells/`).
-- **Test server** — `./gradlew runServer` starts a Paper 1.21.4 server with the shaded `:core` plugin (`xyz.jpenilla.run-paper`; server files under `core/run/`).
+- **Test server** — `./gradlew runServer` starts a Paper 26.2 server with the shaded `:core` plugin (`xyz.jpenilla.run-paper`; server files under `core/run/`).
 - **`:core`** — main plugin. Java packages stay `com.nisovin.magicspells`; Maven coords use `io.github.team-sneakymouse`.
 - **Spell classes** — `core/src/main/java/com/nisovin/magicspells/spells/`
   - Categories: `instant/`, `targeted/`, `buff/`, `command/`, `passive/`, plus top-level general spells
@@ -54,7 +54,7 @@ If the user says “feature branch” / “pull main into my branch” without n
 - **Config helpers** — `.../util/config/` (`ConfigData`, `getConfigData*` on spells)
 - **Default YAMLs** — `core/src/main/resources/` (`general.yml`, `mana.yml`, `spells-*.yml`, …) — shipped defaults only, not LoM packs
 - **Extensions** — `:shop`, `:factions`, `:memory`, `:teams`, `:towny`
-- **NMS** — `:nms:shared`, `:nms:v1_21_4` (version modules; see README)
+- **NMS** — `:nms:shared`, `:nms:v26_2` (the modules `settings.gradle.kts` includes; other `nms/v*` folders are not built)
 
 ## Docs map
 
