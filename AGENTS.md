@@ -1,8 +1,8 @@
 # Project instructions
 
-Before working in this workspace, read and apply all rule files under
-`.cursor/rules/`. Treat their instructions as project-level guidance for
-Codex, including rules marked `alwaysApply: true`.
+Before working in this workspace, read and apply the rule files under
+`.cursor/rules/` (Cursor loads them itself; other agents read them as
+project-level guidance, including rules marked `alwaysApply: true`).
 
 The workspace contains two independent Git repositories:
 
@@ -13,8 +13,7 @@ Keep their Git histories, commits, and changes separate. When a task changes
 user-facing spells, effects, or configuration, follow the wiki documentation
 requirements in `.cursor/rules/wiki-documentation.mdc`.
 
-**Plugin mode:** follow `MagicSpells/AGENTS.md` team-policy bootstrap (resolve sibling
-`team-development-policy` checkout, pull when behind, then read `policy/core.md`).
+**Plugin mode:** follow `MagicSpells/AGENTS.md`, including its team-policy bootstrap.
 **Script mode** (`Ms_Scripts` / `MagicSpells_Scripting`) is not enrolled via that pointer;
 follow `.cursor/rules/scripts-authoring.mdc` instead.
 
